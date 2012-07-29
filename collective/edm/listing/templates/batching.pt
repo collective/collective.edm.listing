@@ -2,19 +2,21 @@
 <div class="listingBar"
      i18n:domain="plone"
      metal:define-macro="navigation"
-     tal:define="batch view/batch"
+     tal:define="batch view/batch;
+     			 sort_on request/sort_on|string:getObjPositionInParent};
+     			 sort_order request/sort_order|string:ascending"
      tal:condition="batch/multiple_pages">
-     
+
     <span class="showall" tal:condition="not:view/within_batch_size">
               <a tal:attributes="href view/show_all_url"
                  i18n:translate="label_show_all"
                  id="foldercontents-show-all">Show all items</a>
     </span>
-     
+
     <span class="previous"
       tal:condition="batch/has_previous">
         <a href=""
-           tal:attributes="href string:${view/url}?pagenumber=${batch/previouspage}&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}">
+           tal:attributes="href string:${view/url}?pagenumber=${batch/previouspage}&amp;sort_on=$sort_on&amp;sort_order=$sort_order">
            &laquo;
            <span i18n:translate="batch_previous_x_items" tal:omit-tag="">
                Previous
@@ -27,7 +29,7 @@
     <span class="next"
           tal:condition="batch/has_next">
         <a href=""
-           tal:attributes="href string:${view/url}?pagenumber=${batch/nextpage}&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}">
+           tal:attributes="href string:${view/url}?pagenumber=${batch/nextpage}&amp;sort_on=$sort_on&amp;sort_order=$sort_order">
            <span i18n:translate="batch_next_x_items" tal:omit-tag="">
                Next
                <span i18n:name="number" tal:omit-tag="" tal:content="batch/next_item_count">n</span>
@@ -40,7 +42,7 @@
     <!-- Link to first -->
     <span tal:condition="batch/show_link_to_first">
         <a href=""
-           tal:attributes="href string:${view/url}?pagenumber=1&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}">1</a>
+           tal:attributes="href string:${view/url}?pagenumber=1&amp;sort_on=$sort_on&amp;sort_order=$sort_order">1</a>
         <span tal:condition="batch/second_page_not_in_navlist"
               tal:omit-tag="">
            ...
@@ -52,7 +54,7 @@
     <span tal:repeat="pagenumber batch/previous_pages"
           tal:omit-tag="" >
       <a href="" tal:content="pagenumber"
-         tal:attributes="href string:${view/url}?pagenumber=$pagenumber&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}"/>
+         tal:attributes="href string:${view/url}?pagenumber=$pagenumber&amp;sort_on=$sort_on&amp;sort_order=$sort_order"/>
     </span>
 
     <!-- Current page -->
@@ -65,7 +67,7 @@
     <span tal:repeat="pagenumber batch/next_pages"
           tal:omit-tag="" >
       <a href="" tal:content="pagenumber"
-         tal:attributes="href string:${view/url}?pagenumber=$pagenumber&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}"/>
+         tal:attributes="href string:${view/url}?pagenumber=$pagenumber&amp;sort_on=$sort_on&amp;sort_order=$sort_order"/>
     </span>
 
     <!-- Link to last -->
@@ -75,7 +77,7 @@
            ...
         </span>
         <a href=""
-           tal:attributes="href string:${view/url}?pagenumber=${batch/lastpage}&amp;sort_on=${request/sort_on|string:getObjPositionInParent}&amp;sort_order=${request/sort_order|string:ascending}"
+           tal:attributes="href string:${view/url}?pagenumber=${batch/lastpage}&amp;sort_on=$sort_on&amp;sort_order=$sort_order"
            tal:content="batch/lastpage">3457</a>
     </span>
     </span>
