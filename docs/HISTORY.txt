@@ -4,16 +4,17 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-<<<<<<< .mine
+- Chameleon compatible.
+  [thomasdesvenain]
+
 - Products.CMFPlacefulWorkflow not required anymore.
-=======
+
 - ListingRights can replace manual sort by column sort.
   Remove kss sort stuff.
   [thomasdesvenain]
 
 - Fixed redirect after delete popup.
   [thomasdesvenain]
->>>>>>> .r250503
 
 - Page title was changed to <h1> (was <h2>).
   [cedricmessiant]
