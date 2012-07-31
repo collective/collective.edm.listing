@@ -4,6 +4,9 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- Move to github.
+  [thomasdesvenain]
+
 - Chameleon compatible.
   [thomasdesvenain]
 
