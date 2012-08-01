@@ -7,12 +7,6 @@
       metal:use-macro="here/main_template/macros/master">
 
   <head>
-      <metal:block fill-slot="top_slot">
-        <tal:insert tal:replace="nothing"
-              tal:define="dummy python:request.set('enable_border', 1)" />
-      </metal:block>
-      <metal:block fill-slot="javascript_head_slot">
-      </metal:block>
   </head>
 
   <body>
