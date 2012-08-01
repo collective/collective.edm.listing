@@ -4,6 +4,10 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Fix error at startup:
+  "Couldn't import plone_displayviews, No module named plone_displayviews".
+  [thomasdesvenain]
+
 - Do not force content views.
   [thomasdesvenain]
 
