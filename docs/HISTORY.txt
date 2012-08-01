@@ -4,6 +4,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Improve transition form behaviour.
+  [thomasdesvenain]
+
 - Fix error at startup:
   "Couldn't import plone_displayviews, No module named plone_displayviews".
   [thomasdesvenain]

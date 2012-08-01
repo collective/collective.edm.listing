@@ -63,7 +63,7 @@
         <div class="edit-popup-help" i18n:translate="help_popup_modify_state">
              Choose the new state of your document</div>
 
-	    <form tal:attributes="action string:${here_url}/content_status_modify">
+	    <form tal:attributes="action string:${here_url}/edm_changestate">
 		    <div tal:repeat="transition view/gettransitions"
 		         tal:attributes="class string:state-${transition/state-id} transition"
                  i18n:domain="plone">

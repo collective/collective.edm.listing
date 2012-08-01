@@ -61,6 +61,10 @@
 	padding:0.5em 1em;
 }
 
+#edit-popup #edit-popup-transitions{
+	padding-top: 16px;
+}
+
 pb-ajax #edit-popup-buttons,
 #edit-popup .edit-popup-help,
 #edit-popup #edit-popup-buttons,

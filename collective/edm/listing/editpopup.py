@@ -1,5 +1,4 @@
 from Acquisition import aq_inner
-from zope.app.component.hooks import getSite
 from zope.security import checkPermission
 from zope.interface import Interface
 from zope.component import getUtility
@@ -8,9 +7,13 @@ from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from Products.Five.browser import BrowserView
 from Products.ExternalEditor.ExternalEditor import EditLink
+from Products.CMFCore.utils import getToolByName
 
 from collective.edm.listing.interfaces import IEDMListingSettings
+from zope.i18nmessageid import MessageFactory
+from Products.statusmessages.interfaces import IStatusMessage
 
+PMF = MessageFactory('plone')
 
 class EditPopup(BrowserView):
 
@@ -35,7 +38,7 @@ class EditPopup(BrowserView):
 
     @memoize
     def gettransitions(self):
-        wtool = getSite().portal_workflow
+        wtool = getToolByName(self.context, 'portal_workflow')
         workflows = wtool.getWorkflowsFor(self.context)
         if len(workflows) == 0:
             return []
@@ -46,7 +49,7 @@ class EditPopup(BrowserView):
         review_state = wtool.getInfoFor(self.context, 'review_state')
         current_state = workflow.states[review_state]
         choices = [{'title': current_state.title,
-                    'id': review_state,
+                    'id': '',
                     'state-id': review_state,
                     'current': True}]
 
@@ -71,3 +74,16 @@ class EditPopup(BrowserView):
                 choice['title'] = choice['transition']
 
         return choices
+
+
+class ChangeState(BrowserView):
+
+    def __call__(self):
+        context, request = self.context, self.request
+        transition = request['workflow_action']
+        if transition:
+            wtool = getToolByName(context, 'portal_workflow')
+            wtool.doActionFor(context, transition)
+            IStatusMessage(request).addStatusMessage(PMF(u'Item state changed.'))
+
+        self.request.response.redirect(self.context.getParentNode().absolute_url())

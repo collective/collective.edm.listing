@@ -4,8 +4,9 @@ edmlisting.initoverlay = function(){
         jQuery(this).prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
-            formselector: '#edit-popup-transitions form',
-            config: {onClose: function(el){window.location.reload();}}
+            formselector: '.edit-popup form',
+            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
+        	redirect: $.plonepopups.redirectbasehref
             });
         jQuery(this).removeClass('edm-edit-popup');
     });
