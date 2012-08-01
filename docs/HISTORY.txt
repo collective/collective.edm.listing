@@ -4,6 +4,12 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Added a view "listingoptions" that allows to setup some behaviours:
+    - sort mode
+    - default sort criterion
+    - default sort order
+    - edit popup activated or not
+
 - Improve transition form behaviour.
   [thomasdesvenain]
 

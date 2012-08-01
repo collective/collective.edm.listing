@@ -44,20 +44,32 @@ class FolderContentsTable(FolderContentsTableOrig):
         self.context = context
         self.request = request
         self.contentFilter = contentFilter is not None and contentFilter or {}
-        if self.request.get('sort_order', False):
-            self.contentFilter['sort_order'] = self.request['sort_order']
-        if self.request.get('sort_on', False):
+        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
+        if self.listingoptions.sort_mode == 'auto':
+            default_sort_on = self.listingoptions.default_sort_on
+            default_sort_order = self.listingoptions.default_sort_order
+        else:
+            default_sort_on, default_sort_order = False, False
+
+        sort_order = self.request.get('sort_order', default_sort_order)
+        if sort_order:
+            self.request['sort_order'] = sort_order
+            self.contentFilter['sort_order'] = sort_order
+
+        sort_on = self.request.get('sort_on', default_sort_on)
+        if sort_on:
             # if there is a sortable_xx index matching
             # (ex : sortable_title, sortable_creator), use it
             catalog = getToolByName(self.context, 'portal_catalog')
-            sortable_index = 'sortable_%s' % self.request['sort_on'].lower()
+            sortable_index = 'sortable_%s' % sort_on.lower()
             if sortable_index in catalog.indexes():
                 self.contentFilter['sort_on'] = sortable_index
+                self.request['sort_on'] = sortable_index
             else:
-                self.contentFilter['sort_on'] = self.request['sort_on']
+                self.contentFilter['sort_on'] = sort_on
+                self.request['sort_on'] = sort_on
 
         self.items = self.folderitems()
-
         url = context.absolute_url()
         view_url = url + '/edm_folder_listing'
         self.table = Table(request, url, view_url, self.items,
@@ -85,6 +97,7 @@ class Table(TableOrig):
         self.icon_download = self.portal_url + '/download_icon.png'
         self.listingrights = self.context.unrestrictedTraverse('@@edmlistingrights')
         self.listingrights.update()
+        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
         self.brains = []
         self.wf_policy = get_workflow_policy(self.context)
         for item in self.items:
@@ -108,7 +121,7 @@ class Table(TableOrig):
 
             self.brains.append(item['brain'])
 
-        self.sortable_columns = self.listingrights.sortable_columns()
+        self.sortable_columns = self.listingoptions.sort_mode == 'auto'
         self.show_sort_column = not self.sortable_columns and self.listingrights.globally_show_sort()
         suppl_columns = getAdapters((self.context, self.request, self),
                                     IEDMListingSupplColumn)
@@ -158,7 +171,10 @@ class Table(TableOrig):
         return self.listingrights.can_delete(item['brain'])
 
     def useEditPopup(self, item):
-        return self.listingrights.use_edit_popup(item['brain'])
+        if self.listingoptions.allow_edit_popup:
+            return self.listingrights.use_edit_popup(item['brain'])
+        else:
+            return False
 
     def showHistory(self):
         return self.listingrights.globally_show_history()
@@ -193,7 +209,9 @@ class Table(TableOrig):
     def arrow(self, sort_index):
         if sort_index != self.request.get('sort_on', None):
             return u""
-        if self.request.get('sort_order', 'descending') == 'descending':
+        elif not 'sort_order' in self.request:
+            return u""
+        elif self.request.get('sort_order', 'descending') == 'descending':
             return u"""<img class="sortdirection" src="%s/listing-arrowup.gif" />""" % self.portal_url
         else:
             return u"""<img class="sortdirection" src="%s/listing-arrowdown.gif" />""" % self.portal_url

@@ -53,6 +53,12 @@
 
   <browser:page
       for="*"
+      class=".listingoptions.DefaultListingOptions"
+      name="edmlistingoptions"
+      permission="zope2.View" />
+
+  <browser:page
+      for="*"
       class=".editpopup.ChangeState"
       name="edm_changestate"
       permission="zope2.View" />

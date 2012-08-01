@@ -1,5 +1,6 @@
 from zope.interface import Interface, Attribute
 from zope import schema
+from zope.interface.interface import Attribute
 
 
 class IEDMListing(Interface):
@@ -91,6 +92,27 @@ class IListingRights(Interface):
         """Check if buttons are hidden even for allowed users
         """
         return True
+
+
+class IEDMListingOptions(Interface):
+
+    sort_mode = Attribute("""returns 'manual' or 'auto'
+        manual sort uses object position in parent
+        automatic sort allows visitors to sort on columns
+        """)
+
+    default_sort_on = Attribute(
+        """If sort_mode is automatic, sort by default on this index
+        """)
+
+    default_sort_order = Attribute(
+        """If sort_mode is automatic, sort by default on this index
+        """)
+
+    allow_edit_popup = Attribute(
+        """If it is false,
+        edit buttons do not display a popup but only redirect to edit form
+        """)
 
 
 class IEDMListingSettings(Interface):
