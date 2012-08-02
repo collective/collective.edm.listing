@@ -88,18 +88,21 @@ class Table(TableOrig):
         self.context = context
         self.mtool = getToolByName(context, 'portal_membership')
         self.wtool = getToolByName(context, 'portal_workflow')
-        self.portal_url = getToolByName(context, 'portal_url')()
-        self.icon_edit = self.portal_url + '/edit.png'
-        self.icon_cut = self.portal_url + '/cut_icon.png'
-        self.icon_copy = self.portal_url + '/copy_icon.png'
-        self.icon_delete = self.portal_url + '/delete_icon.png'
-        self.icon_history = self.portal_url + '/history.png'
-        self.icon_download = self.portal_url + '/download_icon.png'
-        self.listingrights = self.context.unrestrictedTraverse('@@edmlistingrights')
+        qitool = getToolByName(self.context, 'portal_quickinstaller')
+        portal_url = self.portal_url = getToolByName(context, 'portal_url')()
+        self.icon_edit = portal_url + '/edit.png'
+        self.icon_cut = portal_url + '/cut_icon.png'
+        self.icon_copy = portal_url + '/copy_icon.png'
+        self.icon_delete = portal_url + '/delete_icon.png'
+        self.icon_history = portal_url + '/history.png'
+        self.icon_download = portal_url + '/download_icon.png'
+        self.icon_trash = portal_url + '/ecreall-trashcan.png'
+        self.icon_restore = portal_url + '/ecreall-trashcan-restore.png'
+        self.listingrights = context.unrestrictedTraverse('@@edmlistingrights')
         self.listingrights.update()
-        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
+        self.listingoptions = context.unrestrictedTraverse('@@edmlistingoptions')
         self.brains = []
-        self.wf_policy = get_workflow_policy(self.context)
+        self.wf_policy = get_workflow_policy(context)
         for item in self.items:
             if not 'brain' in item:
                 # bypass items not in page
@@ -111,6 +114,11 @@ class Table(TableOrig):
             if 'url_href_title' in item and item['url_href_title'].endswith(': '):# todo: fix it in plone
                 item['url_href_title'] = item['url_href_title'][:-2]
 
+            if item['brain'].getIcon:
+                item['icon_url'] = '%s/%s' % (self.portal_url, item['brain'].getIcon)
+            else:
+                item['icon_url'] = ''
+
             if self.wf_policy and item['brain'].review_state:
                 chain = self._getPlacefulChainForType(item['brain'].portal_type)
                 if chain:
@@ -121,9 +129,11 @@ class Table(TableOrig):
 
             self.brains.append(item['brain'])
 
+        self.has_ecreall_trashcan = qitool.isProductInstalled('ecreall.trashcan')
         self.sortable_columns = self.listingoptions.sort_mode == 'auto'
         self.show_sort_column = not self.sortable_columns and self.listingrights.globally_show_sort()
-        suppl_columns = getAdapters((self.context, self.request, self),
+        self.show_trashcan_column = self.showTrashcan()
+        suppl_columns = getAdapters((context, self.request, self),
                                     IEDMListingSupplColumn)
         self.suppl_columns = [col for name, col in suppl_columns]
 
@@ -199,6 +209,25 @@ class Table(TableOrig):
 
     def showModified(self):
         return self.listingrights.globally_show_modified()
+
+    def showTrashcan(self):
+        if not self.has_ecreall_trashcan:
+            return False
+        elif self.context.unrestrictedTraverse('isTrashcanOpened')():
+            return False
+        else:
+            return self.listingrights.globally_show_trashcan(brains=self.brains)
+
+    def showTrashcanRestore(self):
+        if not self.has_ecreall_trashcan:
+            return False
+        elif not self.context.unrestrictedTraverse('isTrashcanOpened')():
+            return False
+        else:
+            return self.listingrights.globally_show_trashcan(brains=self.brains)
+
+    def checkTrashItem(self, item):
+        return self.listingrights.can_trash(item['brain'])
 
     def listing_buttons(self):
         if not self.listingrights.show_folder_buttons():

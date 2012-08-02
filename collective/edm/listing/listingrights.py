@@ -132,7 +132,7 @@ class DefaultListingRights(BrowserView):
         elif brain.Creator == self.memberid:
             return True
         else:
-            return self._checkPermission(brain.getObject(), DeleteObjects)
+            return False
 
     def can_edit(self, brain):
         """View edit button associated to this brain
@@ -259,3 +259,9 @@ class DefaultListingRights(BrowserView):
 
     def sortable_columns(self):
         return False
+
+    def can_trash(self, brain):
+        return self.can_delete(brain)
+
+    def globally_show_trashcan(self, brains=[]):
+        return self.candeletecontents

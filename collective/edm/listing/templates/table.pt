@@ -38,7 +38,9 @@
                              showDownload view/showDownload;
                              buttons view/listing_buttons;
                              suppl_columns view/suppl_columns;
-                             sortable_columns view/sortable_columns">
+                             sortable_columns view/sortable_columns;
+                             show_trashcan_column view/showTrashcan;
+                             show_trashcan_restore_column view/showTrashcanRestore">
 
     <div class="visualClear" id="clear-space-before-navigation"><!-- --></div>
 
@@ -103,6 +105,8 @@
           <th class="nosort action-column" tal:condition="canCopyItems"><!-- copy column --></th>
           <th class="nosort action-column" tal:condition="canRemoveItems"><!-- cut column --></th>
           <th class="nosort action-column" tal:condition="canDeleteItems"><!-- delete column --></th>
+          <th class="nosort action-column" tal:condition="show_trashcan_column"><!-- trashcan column --></th>
+          <th class="nosort action-column" tal:condition="show_trashcan_restore_column"><!-- trashcan column --></th>
           <th class="nosort action-column" tal:condition="show_sort_column"><!-- sort column --></th>
         </tr>
       </thead>
@@ -138,16 +142,14 @@
               </td>
               <td>
                 <span tal:attributes="class item/type_class">
-                  <img tal:replace="structure item/icon"
-                     />&nbsp;<a href="#"
+                  <a href="#"
                               tal:attributes="href  item/view_url;
                                               title item/url_href_title;
                                               class item/state_class;">
-                    <strong tal:omit-tag="not: item/is_browser_default"
-                            tal:content="item/title_or_id"/>
-                  </a>
+                    <img tal:attributes="src item/icon_url"
+                         tal:condition="item/icon_url"
+                      />&nbsp;<tal:title content="item/title_or_id" /></a>
                 </span>
-
                 <span class="state-expired"
                       tal:condition="item/is_expired"
                       i18n:translate="time_expired">expired</span>
@@ -246,6 +248,24 @@
                  </td>
                </tal:var>
              </tal:block>
+             <td tal:condition="show_trashcan_column">
+                 <a href="#"
+                    tal:condition="python:view.checkTrashItem(item)"
+                    tal:attributes="href string:${item/url}/object_trash"
+                    title="Move to trashcan"
+                    i18n:attributes="title">
+                   <img tal:attributes="src view/icon_trash" />
+                 </a>
+              </td>
+             <td tal:condition="show_trashcan_restore_column">
+                 <a href="#"
+                    tal:condition="python:view.checkTrashItem(item)"
+                    tal:attributes="href string:${item/url}/object_restore"
+                    title="Restore"
+                    i18n:attributes="title">
+                   <img tal:attributes="src view/icon_restore" />
+                 </a>
+              </td>
               <td tal:condition="canDeleteItems">
                  <a href="#"
                     class="edm-delete-popup"
