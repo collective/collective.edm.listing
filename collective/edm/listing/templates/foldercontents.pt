@@ -28,6 +28,7 @@
 
       <div tal:replace="structure provider:plone.belowcontenttitle" />
 
+      <tal:description condition="context/Description">
       <p class="documentDescription" tal:condition="exists:here/aq_explicit/widget">
           <metal:field use-macro="python:here.widget('description', mode='view')">
               Description
@@ -41,6 +42,7 @@
               Description
           </p>
       </tal:block>
+      </tal:description>
 
       <div tal:replace="structure provider:plone.abovecontentbody" />
 

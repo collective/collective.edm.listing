@@ -3,6 +3,22 @@
      tal:define="sort_order request/sort_order|view/default_sort_order|string:ascending;
                  sort_on request/sort_on|view/default_sort_on|nothing;
                  next_sort_order python:sort_order == 'descending' and 'ascending' or 'descending'">
+
+    <div id="folderlisting-paste-button"
+         tal:define="button view/paste_button" tal:condition="button">
+      <input class="context"
+             type="submit"
+             name=""
+             value=""
+             i18n:attributes="value"
+             tal:attributes="title button/title;
+                             value button/title;
+                             name button/url;
+                             class button/cssclass;
+                             id string:folderlisting-button-${button/id};" />
+    </div>
+
+
   <input type="hidden" name="sort_on"
          tal:attributes="value sort_on"
          />

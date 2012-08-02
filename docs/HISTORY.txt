@@ -4,6 +4,13 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Folder buttons displays are consistent with listing columns global displays.
+  (if 'delete' column is disabled or empty, 'delete' button is not displayed')
+  [thomasdesvenain]
+
+- Paste button is separated to "selected elements" folder action buttons (delete, paste, etc).
+  [thomasdesvenain]
+
 - ecreall.trashcan integration.
   [thomasdesvenain]
 

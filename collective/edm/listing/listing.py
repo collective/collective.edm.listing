@@ -229,11 +229,42 @@ class Table(TableOrig):
     def checkTrashItem(self, item):
         return self.listingrights.can_trash(item['brain'])
 
+    def paste_button(self):
+        for button in self.buttons:
+            if button['id'] == 'paste':
+                try:
+                    self.context.cb_dataItems()
+                    button['cssclass'] = 'standalone'
+                    return button
+                except:
+                    return None
+        else:
+            return None
+
     def listing_buttons(self):
         if not self.listingrights.show_folder_buttons():
             return []
-        else:
-            return self.buttons
+
+        buttons = []
+        for button in self.buttons:
+            if button['id'] == 'paste':
+                continue
+            elif button['id'] == 'cut':
+                if self.checkRemove():
+                    buttons.append(button)
+            elif button['id'] == 'delete':
+                if self.checkDelete():
+                    buttons.append(button)
+            elif button['id'] == 'moveToTrashcan':
+                if self.showTrashcan():
+                    buttons.append(button)
+            elif button['id'] == 'restoreFromTrashcan':
+                if self.showTrashcanRestore():
+                    buttons.append(button)
+            else:
+                buttons.append(button)
+
+        return buttons
 
     def arrow(self, sort_index):
         if sort_index != self.request.get('sort_on', None):

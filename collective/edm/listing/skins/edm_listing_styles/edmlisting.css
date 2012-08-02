@@ -2,6 +2,9 @@
     margin-top: 20px;
 }
 
+#folderlisting-paste-button{
+	margin: 8px 0px;
+}
 
 /* EDIT POPUP */
 #edit-popup h1 {
