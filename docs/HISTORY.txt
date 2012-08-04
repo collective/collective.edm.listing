@@ -4,6 +4,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Fixed batching with default sort_on.
+  [vincentfretin]
+
 - Folder buttons displays are consistent with listing columns global displays.
   (if 'delete' column is disabled or empty, 'delete' button is not displayed')
   [thomasdesvenain]

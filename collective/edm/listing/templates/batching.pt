@@ -3,8 +3,8 @@
      i18n:domain="plone"
      metal:define-macro="navigation"
      tal:define="batch view/batch;
-     			 sort_on request/sort_on|string:getObjPositionInParent};
-     			 sort_order request/sort_order|string:ascending"
+                 sort_on request/sort_on|string:getObjPositionInParent;
+                 sort_order request/sort_order|string:ascending"
      tal:condition="batch/multiple_pages">
 
     <span class="showall" tal:condition="not:view/within_batch_size">
