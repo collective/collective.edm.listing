@@ -113,9 +113,18 @@
               >State</tal:modified>&nbsp;</th>
           <th class="nosort"
               class="foldercontents-suppl-column"
-              tal:repeat="column suppl_columns">&nbsp;<tal:header
-                i18n:translate="" content="column/header"
-              >State</tal:header>&nbsp;</th>
+              tal:repeat="column suppl_columns">&nbsp;<a
+               tal:define="sort_index column/sort_index|nothing;
+                          sortable_suppl_column python: sortable_columns and sort_index;
+                          sort_order python:sort_on == sort_index and next_sort_order or 'ascending'"
+               tal:attributes="href string:${context/absolute_url}?sort_on=$sort_index&sort_order=$sort_order"
+               tal:omit-tag="not:sortable_suppl_column"
+               ><tal:header
+                    content="column/header"
+              >Header</tal:header>&nbsp;<img
+                    tal:condition="sortable_suppl_column"
+                    tal:replace="structure python:view.arrow(sort_index)" /></a>
+              </th>
           <th class="nosort action-column" tal:condition="showDownload"><!-- download column --></th>
           <th class="nosort action-column" tal:condition="canEditItems"><!-- edit column --></th>
           <th class="nosort action-column" tal:condition="canCopyItems"><!-- copy column --></th>

@@ -124,7 +124,8 @@ class IEDMListingSettings(Interface):
 
 class IEDMListingSupplColumn(Interface):
 
-    header = Attribute("""Column header""")
+    header = Attribute("Column header")
+    sort_index = Attribute("If defined, the column is sortable on this index")
 
     def value(item):
         """Column value for item

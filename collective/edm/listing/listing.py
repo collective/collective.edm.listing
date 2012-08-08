@@ -101,6 +101,7 @@ class Table(TableOrig):
         self.listingrights = context.unrestrictedTraverse('@@edmlistingrights')
         self.listingrights.update()
         self.listingoptions = context.unrestrictedTraverse('@@edmlistingoptions')
+        self.plone_view = context.unrestrictedTraverse('@@plone')
         self.brains = []
         self.wf_policy = get_workflow_policy(context)
         for item in self.items:

@@ -4,6 +4,10 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Added columns can be sortable on an index
+  if sort_index attribute is set on column class.
+  [thomasdesvenain]
+
 - Fixed batching with default sort_on.
   [vincentfretin]
 
