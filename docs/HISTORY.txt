@@ -4,6 +4,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
+- Added columns have an 'available' method.
+  [thomasdesvenain]
+
 - Added columns can be sortable on an index
   if sort_index attribute is set on column class.
   [thomasdesvenain]

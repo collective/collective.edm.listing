@@ -130,3 +130,8 @@ class IEDMListingSupplColumn(Interface):
     def value(item):
         """Column value for item
         """
+
+    def available(items):
+        """Returns True if column should be displayed, False if not
+        if this method doesn't exist, always display the column
+        """

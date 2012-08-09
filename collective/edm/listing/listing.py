@@ -136,7 +136,13 @@ class Table(TableOrig):
         self.show_trashcan_column = self.showTrashcan()
         suppl_columns = getAdapters((context, self.request, self),
                                     IEDMListingSupplColumn)
-        self.suppl_columns = [col for name, col in suppl_columns]
+        self.suppl_columns = []
+        for name, column in suppl_columns:
+            if hasattr(column, 'globally_show'):
+                if not column.available(self.brains):
+                    continue
+
+            self.suppl_columns.append(column)
 
     @instance.memoize
     def _getPlacefulChainForType(self, portal_type):
