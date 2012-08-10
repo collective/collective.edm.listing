@@ -138,7 +138,7 @@ class Table(TableOrig):
                                     IEDMListingSupplColumn)
         self.suppl_columns = []
         for name, column in suppl_columns:
-            if hasattr(column, 'globally_show'):
+            if hasattr(column, 'available'):
                 if not column.available(self.brains):
                     continue
 
