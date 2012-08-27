@@ -91,13 +91,21 @@
           </th>
           <th class="nosort"
               id="foldercontents-size-column"
-              tal:condition="ShowSize">&nbsp;<tal:size i18n:translate="listingheader_size"
-              >Size</tal:size>&nbsp;</th>
+              tal:condition="ShowSize"
+              tal:define="sort_on_size python: sortable_columns and view.sort_on_size()">
+            <a tal:define="sort_order python:sort_on == 'sortable_size' and next_sort_order or 'descending'"
+               tal:attributes="href string:${context/absolute_url}?sort_on=sortable_size&sort_order=$sort_order"
+               tal:omit-tag="not:sort_on_size">
+              <tal:title i18n:translate="listingheader_size">Size</tal:title>&nbsp;
+              <img tal:condition="sort_on_size"
+                   tal:replace="structure python:view.arrow('sortable_size')" />
+            </a>
+          </th>
           <th class="nosort"
               tal:condition="showModified"
               id="foldercontents-modified-column"
               >&nbsp;
-            <a tal:define="sort_order python:sort_on == 'modified' and next_sort_order or 'ascending'"
+            <a tal:define="sort_order python:sort_on == 'modified' and next_sort_order or 'descending'"
                tal:attributes="href string:${context/absolute_url}?sort_on=modified&sort_order=$sort_order"
                tal:omit-tag="not:sortable_columns">
               <tal:modified i18n:domain="collective.edm.listing"
@@ -109,8 +117,15 @@
           </th>
           <th class="nosort"
               id="foldercontents-state-column"
-              tal:condition="ShowState">&nbsp;<tal:modified i18n:translate=""
-              >State</tal:modified>&nbsp;</th>
+              tal:condition="ShowState">
+            <a tal:define="sort_order python:sort_on == 'review_state' and next_sort_order or 'ascending'"
+               tal:attributes="href string:${context/absolute_url}?sort_on=review_state&sort_order=$sort_order"
+               tal:omit-tag="not:sortable_columns">
+              <tal:title i18n:translate="">State</tal:title>&nbsp;
+              <img tal:condition="sortable_columns"
+                   tal:replace="structure python:view.arrow('review_state')" />
+            </a>
+          </th>
           <th class="nosort"
               class="foldercontents-suppl-column"
               tal:repeat="column suppl_columns">&nbsp;<a
@@ -193,7 +208,6 @@
                   </a>
                 </tal:name>
               </td>
-
               <td tal:condition="ShowSize"
                   tal:content="python:view.itemSize(item)">
               </td>

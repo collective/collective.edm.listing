@@ -273,6 +273,9 @@ class Table(TableOrig):
 
         return buttons
 
+    def sort_on_size(self):
+        return 'sortable_size' in getToolByName(self.context, 'portal_catalog').indexes()
+
     def arrow(self, sort_index):
         if sort_index != self.request.get('sort_on', None):
             return u""

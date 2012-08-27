@@ -4,7 +4,11 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- If we have a sortable_size index, we can sort by size.
+  [thomasdesvenain]
+
+- We can sort by review state.
+  [thomasdesvenain]
 
 
 0.4 (2012-08-24)
