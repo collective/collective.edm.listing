@@ -223,7 +223,14 @@ class DefaultListingRights(BrowserView):
     def globally_show_state(self, brains):
         """View state column
         """
-        return not self.anonymous
+        if self.anonymous:
+            return False
+        else:
+            for brain in brains:
+                if brain.review_state:
+                    return True
+            else:
+                return False
 
     def globally_show_size(self, brains):
         """View size column
