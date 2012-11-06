@@ -4,7 +4,8 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added a column to quick view images in an overlay.
+  [thomasdesvenain]
 
 
 0.6 (2012-09-10)

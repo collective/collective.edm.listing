@@ -80,4 +80,14 @@
       permission="cmf.AddPortalContent"
    />
 
+  <!-- upgrade steps -->
+
+  <genericsetup:upgradeStep
+       title="Migration profile for collective.edm.listing to 3"
+       description="Refresh javascript"
+       source="2"
+       destination="3"
+       handler=".upgrades.cook_resources"
+       profile="collective.edm.listing:default" />
+
 </configure>

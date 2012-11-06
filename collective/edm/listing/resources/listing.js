@@ -29,6 +29,13 @@ edmlisting.initoverlay = function(){
             });
         jQuery(this).removeClass('edm-author-popup');
     });
+    jQuery('.edm-quickview-popup').unbind('mouseover').mouseover(function(){
+        jQuery(this).prepOverlay({
+            subtype: 'image',
+            filter: common_content_filter,
+            });
+        jQuery(this).removeClass('edm-quickview-popup');
+    });
 
     // Content history popup
     jQuery('.edm-history-popup').prepOverlay({

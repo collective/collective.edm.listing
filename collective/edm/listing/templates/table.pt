@@ -52,6 +52,7 @@
                              show_sort_column view/show_sort_column;
                              canCopyItems view/checkCopy;
                              showDownload view/showDownload;
+                             showQuickView view/showQuickView;
                              buttons view/listing_buttons;
                              suppl_columns view/suppl_columns;
                              sortable_columns view/sortable_columns;
@@ -141,6 +142,7 @@
                     tal:replace="structure python:view.arrow(sort_index)" /></a>
               </th>
           <th class="nosort action-column" tal:condition="showDownload"><!-- download column --></th>
+          <th class="nosort action-column" tal:condition="showQuickView"><!-- quick view column --></th>
           <th class="nosort action-column" tal:condition="canEditItems"><!-- edit column --></th>
           <th class="nosort action-column" tal:condition="canCopyItems"><!-- copy column --></th>
           <th class="nosort action-column" tal:condition="canRemoveItems"><!-- cut column --></th>
@@ -242,6 +244,17 @@
                        i18n:domain="collective.edm.listing"
                        i18n:attributes="title"
                        title="Download file" />
+                </a>
+              </td>
+              <td tal:condition="showQuickView">
+                <a class="edm-quickview-popup"
+                   tal:define="quickview_view python:view.quickViewItemView(item)"
+                   tal:attributes="href string:${item/url}/image_large"
+                   tal:condition="quickview_view">
+                  <img tal:attributes="src view/icon_quickview"
+                       i18n:domain="collective.edm.listing"
+                       i18n:attributes="title"
+                       title="Quick view file" />
                 </a>
               </td>
               <td tal:condition="canEditItems">

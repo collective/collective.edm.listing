@@ -96,6 +96,7 @@ class Table(TableOrig):
         self.icon_delete = portal_url + '/delete_icon.png'
         self.icon_history = portal_url + '/history.png'
         self.icon_download = portal_url + '/download_icon.png'
+        self.icon_quickview = portal_url + '/search_icon.png'
         self.icon_trash = portal_url + '/ecreall-trashcan.png'
         self.icon_restore = portal_url + '/ecreall-trashcan-restore.png'
         self.listingrights = context.unrestrictedTraverse('@@edmlistingrights')
@@ -155,12 +156,22 @@ class Table(TableOrig):
     def showDownload(self):
         return self.listingrights.globally_show_download(self.brains)
 
+    def showQuickView(self):
+        return self.listingrights.globally_show_quickview(self.brains)
+
     def downloadItemView(self, item):
         download = self.listingrights.show_download(item['brain'])
         if download and not isinstance(download, basestring):
             download = 'download'
 
         return download
+
+    def quickViewItemView(self, item):
+        quickview = self.listingrights.show_quickview(item['brain'])
+        if quickview and not isinstance(quickview, basestring):
+            quickview = 'image_large'
+
+        return quickview
 
     def checkEdit(self):
         return self.listingrights.globally_can_edit(self.brains)

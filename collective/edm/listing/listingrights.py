@@ -206,7 +206,7 @@ class DefaultListingRights(BrowserView):
             return False
 
     def globally_show_download(self, brains):
-        """View state column
+        """View download column
         """
         for brain in brains:
             if self.show_download(brain):
@@ -215,10 +215,25 @@ class DefaultListingRights(BrowserView):
             return False
 
     def show_download(self, brain):
-        """View state column,
+        """View download column,
         return download view
         """
         return brain.meta_type in ('ATBlob', 'ATImage', 'ATFile') and 'download' or False
+
+    def globally_show_quickview(self, brains):
+        """View quickview column
+        """
+        for brain in brains:
+            if self.show_quickview(brain):
+                return True
+        else:
+            return False
+
+    def show_quickview(self, brain):
+        """View quick view cell,
+        return true or quick view
+        """
+        return brain.portal_type in ('Image',) and 'image_large' or False
 
     def globally_show_state(self, brains):
         """View state column
