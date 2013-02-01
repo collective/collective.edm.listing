@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.8 (unreleased)
-----------------
+0.7.1 (unreleased)
+------------------
 
-- Nothing changed yet.
+- German translation.
 
 
 0.7 (2012-11-06)
