@@ -57,6 +57,8 @@
       name="edmlistingoptions"
       permission="zope2.View" />
 
+  <adapter factory=".listing.FolderContentsTable" />
+
   <browser:page
       for="*"
       class=".editpopup.ChangeState"
@@ -89,5 +91,6 @@
        destination="3"
        handler=".upgrades.cook_resources"
        profile="collective.edm.listing:default" />
+
 
 </configure>

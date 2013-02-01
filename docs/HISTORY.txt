@@ -1,10 +1,15 @@
 Changelog
 =========
 
-0.7.1 (unreleased)
+0.8.0 (unreleased)
 ------------------
 
+- Class that gets folder contents and renders a table is a multi adapter
+  on context and request.
+  [thomasdesvenain]
+
 - German translation.
+  [thomasdesvenain]
 
 
 0.7 (2012-11-06)

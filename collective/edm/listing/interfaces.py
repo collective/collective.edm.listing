@@ -7,6 +7,11 @@ class IEDMListing(Interface):
     """Interface of IEDMListing view
     """
 
+class IEDMListingFolderContents(Interface):
+    """Gets the folder contents and build the table
+    """
+
+
 class IEDMListingLayer(Interface):
     """Layer marker interface
     """

@@ -1,11 +1,11 @@
 import urllib
 
 from Acquisition import aq_inner
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getAdapters, adapts
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.i18n import translate
 from zope.publisher.browser import BrowserView
-from zope.interface import implements
+from zope.interface import implements, Interface
 
 from plone.app.content.browser.foldercontents import FolderContentsView as FolderContentsViewOrig
 from plone.app.content.browser.foldercontents import FolderContentsTable as FolderContentsTableOrig
@@ -13,71 +13,16 @@ from plone.app.content.browser.tableview import TableKSSView
 from plone.app.content.browser.tableview import Table as TableOrig
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
-from Products.CMFPlone.utils import pretty_title_or_id, isExpired
+from Products.CMFPlone.utils import safe_unicode, pretty_title_or_id, isExpired
+from Products.CMFCore.interfaces import IFolderish
 
-from collective.edm.listing.interfaces import IEDMListing, IEDMListingSupplColumn
+from collective.edm.listing.interfaces import IEDMListing, IEDMListingSupplColumn,\
+    IEDMListingFolderContents
 from collective.edm.listing.utils import get_workflow_policy
-from zope.component import getAdapters
-
-
-class FolderContentsView(FolderContentsViewOrig):
-    """
-    """
-    implements(IEDMListing)
-
-    def __init__(self, context, request):
-        # avoids setting IContentsPage on our FolderContentsView
-        BrowserView.__init__(self, context, request)
-
-    def contents_table(self):
-        table = FolderContentsTable(aq_inner(self.context), self.request)
-        return table.render()
-
-
-class FolderContentsTable(FolderContentsTableOrig):
-    """
-    The foldercontents table renders the table and its actions.
-    """
-
-    def __init__(self, context, request, contentFilter=None):
-        self.context = context
-        self.request = request
-        self.contentFilter = contentFilter is not None and contentFilter or {}
-        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
-        if self.listingoptions.sort_mode == 'auto':
-            default_sort_on = self.listingoptions.default_sort_on
-            default_sort_order = self.listingoptions.default_sort_order
-        else:
-            default_sort_on, default_sort_order = False, False
-
-        sort_order = self.request.get('sort_order', default_sort_order)
-        if sort_order:
-            self.request['sort_order'] = sort_order
-            self.contentFilter['sort_order'] = sort_order
-
-        sort_on = self.request.get('sort_on', default_sort_on)
-        if sort_on:
-            # if there is a sortable_xx index matching
-            # (ex : sortable_title, sortable_creator), use it
-            catalog = getToolByName(self.context, 'portal_catalog')
-            sortable_index = 'sortable_%s' % sort_on.lower()
-            if sortable_index in catalog.indexes():
-                self.contentFilter['sort_on'] = sortable_index
-                self.request['sort_on'] = sortable_index
-            else:
-                self.contentFilter['sort_on'] = sort_on
-                self.request['sort_on'] = sort_on
-
-        self.items = self.folderitems()
-        url = context.absolute_url()
-        view_url = url + '/edm_folder_listing'
-        self.table = Table(request, url, view_url, self.items,
-                           show_sort_column=self.show_sort_column,
-                           buttons=self.buttons, context=context)
 
 
 class Table(TableOrig):
+
     render = ViewPageTemplateFile("templates/table.pt")
     batching = ViewPageTemplateFile("templates/batching.pt")
 
@@ -296,4 +241,64 @@ class Table(TableOrig):
             return u"""<img class="sortdirection" src="%s/listing-arrowup.gif" />""" % self.portal_url
         else:
             return u"""<img class="sortdirection" src="%s/listing-arrowdown.gif" />""" % self.portal_url
+
+
+class FolderContentsTable(FolderContentsTableOrig):
+    """
+    The foldercontents table renders the table and its actions.
+    """
+    implements(IEDMListingFolderContents)
+    adapts(IFolderish, Interface)
+
+    __table__ = Table
+
+    def __init__(self, context, request, contentFilter=None):
+        self.context = context
+        self.request = request
+        self.contentFilter = contentFilter is not None and contentFilter or {}
+        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
+        if self.listingoptions.sort_mode == 'auto':
+            default_sort_on = self.listingoptions.default_sort_on
+            default_sort_order = self.listingoptions.default_sort_order
+        else:
+            default_sort_on, default_sort_order = False, False
+
+        sort_order = self.request.get('sort_order', default_sort_order)
+        if sort_order:
+            self.request['sort_order'] = sort_order
+            self.contentFilter['sort_order'] = sort_order
+
+        sort_on = self.request.get('sort_on', default_sort_on)
+        if sort_on:
+            # if there is a sortable_xx index matching
+            # (ex : sortable_title, sortable_creator), use it
+            catalog = getToolByName(self.context, 'portal_catalog')
+            sortable_index = 'sortable_%s' % sort_on.lower()
+            if sortable_index in catalog.indexes():
+                self.contentFilter['sort_on'] = sortable_index
+                self.request['sort_on'] = sortable_index
+            else:
+                self.contentFilter['sort_on'] = sort_on
+                self.request['sort_on'] = sort_on
+
+        self.items = self.folderitems()
+        url = context.absolute_url()
+        view_url = url + '/edm_folder_listing'
+        self.table = self.__table__(request, url, view_url, self.items,
+                           show_sort_column=self.show_sort_column,
+                           buttons=self.buttons, context=context)
+
+
+class FolderContentsView(FolderContentsViewOrig):
+    """
+    """
+    implements(IEDMListing)
+
+    def __init__(self, context, request):
+        # avoids setting IContentsPage on our FolderContentsView
+        BrowserView.__init__(self, context, request)
+
+    def contents_table(self):
+        table = getMultiAdapter((self.context, self.request), IEDMListingFolderContents)
+        return table.render()
 
