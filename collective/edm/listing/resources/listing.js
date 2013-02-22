@@ -14,7 +14,7 @@ edmlisting.initoverlay = function(){
         jQuery(this).prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
-            closeselector: '[name=form.button.Cancel]',
+            closeselector: '[name="form.button.Cancel"]',
             formselector: '#edit-popup-transitions form',
             noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
         	redirect: $.plonepopups.redirectbasehref

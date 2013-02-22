@@ -1,19 +1,14 @@
-import urllib
-
-from Acquisition import aq_inner
 from zope.component import getMultiAdapter, getAdapters, adapts
-from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.i18n import translate
+
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.interface import implements, Interface
 
 from plone.app.content.browser.foldercontents import FolderContentsView as FolderContentsViewOrig
 from plone.app.content.browser.foldercontents import FolderContentsTable as FolderContentsTableOrig
-from plone.app.content.browser.tableview import TableKSSView
 from plone.app.content.browser.tableview import Table as TableOrig
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode, pretty_title_or_id, isExpired
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.edm.listing.interfaces import IEDMListing, IEDMListingSupplColumn,\

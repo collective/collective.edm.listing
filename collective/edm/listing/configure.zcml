@@ -92,5 +92,12 @@
        handler=".upgrades.cook_resources"
        profile="collective.edm.listing:default" />
 
+  <genericsetup:upgradeStep
+       title="Migration profile for collective.edm.listing to 4"
+       description="Refresh javascript"
+       source="3"
+       destination="4"
+       handler=".upgrades.cook_resources"
+       profile="collective.edm.listing:default" />
 
 </configure>
