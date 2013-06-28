@@ -50,7 +50,7 @@ msgstr "Choisissez le mode d'édition du document"
 #. Default: "Modify all selected documents:"
 #: ../templates/table.pt:252
 msgid "help_folderlisting_buttons"
-msgstr "Modifier tous les documents sélectionnés :"
+msgstr "Appliquer aux documents sélectionnés :"
 
 #. Default: "Choose the new state of your document"
 #: ../templates/editpopup.pt:62
