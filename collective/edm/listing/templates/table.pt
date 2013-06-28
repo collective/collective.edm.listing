@@ -249,7 +249,7 @@
               <td tal:condition="showQuickView">
                 <a class="edm-quickview-popup"
                    tal:define="quickview_view python:view.quickViewItemView(item)"
-                   tal:attributes="href string:${item/url}/image_large"
+                   tal:attributes="href string:${item/url}/@@images/image/large"
                    tal:condition="quickview_view">
                   <img tal:attributes="src view/icon_quickview"
                        i18n:domain="collective.edm.listing"
@@ -362,7 +362,7 @@
     <span id="folderlisting-buttons-help" tal:condition="buttons"
           i18n:domain="collective.edm.listing"
           i18n:translate="help_folderlisting_buttons">
-        Modify all selected documents:
+        Apply to all selected documents:
     </span>
     <tal:buttons tal:repeat="button buttons">
       <input class="context"

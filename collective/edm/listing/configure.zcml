@@ -100,4 +100,8 @@
        handler=".upgrades.cook_resources"
        profile="collective.edm.listing:default" />
 
+  <subscriber for="Products.ATContentTypes.interfaces.image.IATImage
+                   Products.Archetypes.interfaces.event.IObjectInitializedEvent"
+              handler=".subscribers.create_scales_at_adding" />
+
 </configure>
