@@ -94,3 +94,6 @@ pb-ajax #edit-popup-buttons,
 #foldercontents-modified-column{
 	width: 10em;
 }
+.foldercontents-modified-cell{
+	white-space: nowrap;
+}

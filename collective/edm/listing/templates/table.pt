@@ -182,7 +182,7 @@
                   Item Title
                 </label>
               </td>
-              <td>
+              <td class="foldercontents-title-cell">
                 <span tal:attributes="class item/type_class">
                   <a href="#"
                               tal:attributes="href  item/view_url;
@@ -198,6 +198,7 @@
               </td>
 
               <td tal:condition="ShowAuthor"
+                  class="foldercontents-creator-cell"
                   tal:define="item_creator item/brain/Creator">
                 <tal:name tal:condition="item_creator"
                           tal:define="author python:view.getMemberInfo(item_creator)">
@@ -211,21 +212,22 @@
                 </tal:name>
               </td>
               <td tal:condition="ShowSize"
+                  class="foldercontents-size-column"
                   tal:content="python:view.itemSize(item)">
               </td>
-              <td tal:condition="showModified">
-	              <tal:date content="item/modified">08/19/2001 03:01 AM</tal:date>
-	              <a class="edm-history-popup"
+              <td tal:condition="showModified" class="foldercontents-modified-cell">
+	              <tal:date content="item/modified">08/19/2001 03:01 AM</tal:date
+	              >&nbsp;<a class="edm-history-popup"
 	                 tal:condition="python:ShowHistory and view.showItemHistory(item)"
 	                 tal:attributes="href string:${item/url}/@@historyview"
 	                 title="label_history" alt="history"
 	                 i18n:attributes="title"
-	                 >&nbsp;<img tal:attributes="src view/icon_history"
+	                 ><img tal:attributes="src view/icon_history"
 	                             i18n:attributes="title"
 	                             title="History" />
 	              </a>
               </td>
-              <td tal:condition="ShowState">
+              <td tal:condition="ShowState" class="foldercontents-state-cell">
                 <span i18n:translate=""
                       tal:condition="item/state_title"
                       tal:content="item/state_title"
@@ -236,7 +238,8 @@
                 <span i18n:translate=""
                       tal:content="python:column.value(item)" />
               </td>
-              <td tal:condition="showDownload">
+              <td tal:condition="showDownload" class="item-title"
+                  class="foldercontents-download-cell">
                 <a tal:define="download_view python:view.downloadItemView(item)"
                    tal:attributes="href string:${item/url}/${download_view}"
                    tal:condition="download_view">
@@ -246,7 +249,8 @@
                        title="Download file" />
                 </a>
               </td>
-              <td tal:condition="showQuickView">
+              <td tal:condition="showQuickView"
+                  class="foldercontents-quickview-cell">
                 <a class="edm-quickview-popup"
                    tal:define="quickview_view python:view.quickViewItemView(item)"
                    tal:attributes="href string:${item/url}/@@images/image/large"
@@ -257,7 +261,7 @@
                        title="Quick view file" />
                 </a>
               </td>
-              <td tal:condition="canEditItems">
+              <td tal:condition="canEditItems" class="foldercontents-action-cell">
                <tal:editbutton condition="python:view.checkEditItem(item)">
                 <tal:var define="useEditPopup python:view.useEditPopup(item)">
 	              <a title="Edit"
@@ -278,7 +282,7 @@
              </td>
              <tal:block condition="canCopyItems"
                         define="canCopyItem python:view.checkCopyItem(item)">
-	             <td>
+	             <td class="foldercontents-action-cell">
 	              <a href="#"
 	                 tal:attributes="href string:${item/url}/object_copy"
 	                 title="Copy"
@@ -286,11 +290,12 @@
 	                <img tal:attributes="src view/icon_copy" />
 	              </a>
 	             </td>
-                 <td tal:condition="not:canCopyItems" />
+                 <td class="foldercontents-copy-cell"
+                     tal:condition="not:canCopyItems" />
              </tal:block>
              <tal:block condition="canRemoveItems">
                <tal:var define="canRemoveItem python:view.checkRemoveItem(item)">
-                 <td>
+                 <td class="foldercontents-action-cell">
                    <a href="#" tal:condition="canRemoveItem"
                       tal:attributes="href  string:${item/url}/object_cut"
                       title="Cut"
@@ -300,7 +305,8 @@
                  </td>
                </tal:var>
              </tal:block>
-             <td tal:condition="show_trashcan_column">
+             <td tal:condition="show_trashcan_column"
+                 class="foldercontents-action-cell">
                  <a href="#"
                     tal:condition="python:view.checkTrashItem(item)"
                     tal:attributes="href string:${item/url}/object_trash"
@@ -309,7 +315,8 @@
                    <img tal:attributes="src view/icon_trash" />
                  </a>
               </td>
-             <td tal:condition="show_trashcan_restore_column">
+             <td tal:condition="show_trashcan_restore_column"
+                 class="foldercontents-action-cell">
                  <a href="#"
                     tal:condition="python:view.checkTrashItem(item)"
                     tal:attributes="href string:${item/url}/object_restore"
@@ -318,7 +325,7 @@
                    <img tal:attributes="src view/icon_restore" />
                  </a>
               </td>
-              <td tal:condition="canDeleteItems">
+              <td tal:condition="canDeleteItems" class="foldercontents-action-cell">
                  <a href="#"
                     class="edm-delete-popup"
                     tal:condition="python:view.checkDeleteItem(item)"
@@ -328,7 +335,8 @@
                    <img tal:attributes="src view/icon_delete" />
                  </a>
                </td>
-              <td tal:condition="show_sort_column" class="draggable">
+              <td tal:condition="show_sort_column"
+                  class="draggable foldercontents-action-cell">
                 <a href=""
                    title="Move item up"
                    i18n:attributes="title title_move_item_up;"

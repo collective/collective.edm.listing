@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- All cells have a class. Avoid wrap in modified cell.
+
 - Do not show upload viewlet if there is no addable type that matches
   with a file content type set up in content types registry.
 
