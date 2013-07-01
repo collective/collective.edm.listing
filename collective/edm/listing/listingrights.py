@@ -1,4 +1,3 @@
-from Acquisition import aq_base, aq_inner, aq_parent
 from zope.interface import implements
 from zope.component import getUtility
 

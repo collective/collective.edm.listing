@@ -4,6 +4,9 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Do not show upload viewlet if there is no addable type that matches
+  with a file content type set up in content types registry.
+
 - Generate scales when we add images in and edm listing.
   [thomasdesvenain]
 

@@ -1,10 +1,11 @@
 from Acquisition import aq_inner
 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFCore.utils import getToolByName
 from collective.quickupload.interfaces import IQuickUploadNotCapable
 from collective.quickupload.portlet.quickuploadportlet import JAVASCRIPT
 
 from plone.app.layout.viewlets.common import ViewletBase
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 class QuickUploadViewlet(ViewletBase):
 
@@ -22,6 +23,13 @@ class QuickUploadViewlet(ViewletBase):
         return JAVASCRIPT
 
     def available(self):
+        context = self.context
+        allowed_content_types = [c.getId() for c in context.getAllowedTypes()]
+        cttool = getToolByName(context, 'content_type_registry')
+        uploadable_types = set([p[1][1] for p in cttool.listPredicates()])
+        if len(uploadable_types.intersection(allowed_content_types)) == 0:
+            return False
+
         return not IQuickUploadNotCapable.providedBy(self.context)
 
     def getUploadUrl(self):
