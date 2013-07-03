@@ -31,13 +31,13 @@ class DefaultListingRights(BrowserView):
         self.memberid = self.member.getId()
         self.anonymous = self.mtool.isAnonymousUser()
 
-        roles = self.member.getRolesInContext(self.context)
+        self.roles = self.member.getRolesInContext(self.context)
         self.ismanager = self.member.has_role(('Manager', 'Site Administrator'),
                                               self.context)
-        self.isowner = 'Owner' in roles
-        self.iseditor = 'Editor' in roles
-        self.iscontributor = 'Contributor' in roles
-        self.isreviewer = 'Reviewer' in roles
+        self.isowner = 'Owner' in self.roles
+        self.iseditor = 'Editor' in self.roles
+        self.iscontributor = 'Contributor' in self.roles
+        self.isreviewer = 'Reviewer' in self.roles
         self.canreview = not self.anonymous \
                     and self._checkPermission(self.context, ReviewPortalContent)
         self.canadd = not self.anonymous \
