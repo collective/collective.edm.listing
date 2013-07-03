@@ -4,6 +4,8 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- Fix: check global copy right to show copy button.
+
 - All cells have a class. Avoid wrap in modified cell.
 
 - Do not show upload viewlet if there is no addable type that matches

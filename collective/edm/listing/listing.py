@@ -210,6 +210,9 @@ class Table(TableOrig):
             elif button['id'] == 'cut':
                 if self.checkRemove():
                     buttons.append(button)
+            elif button['id'] == 'copy':
+                if self.checkCopy():
+                    buttons.append(button)
             elif button['id'] == 'delete':
                 if self.checkDelete():
                     buttons.append(button)
