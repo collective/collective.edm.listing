@@ -1,3 +1,4 @@
+from Acquisition import aq_inner
 from zope.interface import implements
 from zope.component import getUtility
 
@@ -174,7 +175,8 @@ class DefaultListingRights(BrowserView):
             return True
         if self.canexternaledit and brain.portal_type in self.external_editable_types:
             return True
-        elif self._checkPermission(brain.getObject(), ReviewPortalContent):
+        elif (self.iscontributor or self.iseditor) \
+                and len(self.wtool.listActionInfos(object=aq_inner(brain.getObject()))) > 0:
             return True
         else:
             return False

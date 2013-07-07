@@ -4,6 +4,9 @@ Changelog
 0.10 (unreleased)
 -----------------
 
+- To show edit popup, test the fact any workflow action is available
+  instead of just testing Review portal content right.
+
 - Fix: check global copy right to show copy button.
 
 - All cells have a class. Avoid wrap in modified cell.
