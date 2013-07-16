@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.10 (unreleased)
+0.10 (2013-07-16)
 -----------------
 
 - To show edit popup, test the fact any workflow action is available
