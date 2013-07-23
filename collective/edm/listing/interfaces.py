@@ -16,7 +16,7 @@ class IEDMListingLayer(Interface):
     """Layer marker interface
     """
 
-class IListingRights(Interface):
+class IEDMListingRights(Interface):
     """View to be customized on your project
     provides the more intelligent way
     to compute if listing actions are displayed or not

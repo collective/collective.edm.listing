@@ -45,11 +45,9 @@
       menu="plone_displayviews"
        />
 
-  <browser:page
-      for="*"
-      class=".listingrights.DefaultListingRights"
-      name="edmlistingrights"
-      permission="zope2.View" />
+  <adapter factory=".listingrights.DefaultListingRights"
+           provides="collective.edm.listing.interfaces.IEDMListingRights"
+       />
 
   <adapter factory=".listingoptions.DefaultListingOptions"
            provides="collective.edm.listing.interfaces.IEDMListingOptions"

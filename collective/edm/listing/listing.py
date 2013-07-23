@@ -12,7 +12,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.edm.listing.interfaces import IEDMListing, IEDMListingSupplColumn,\
-    IEDMListingFolderContents, IEDMListingOptions
+    IEDMListingFolderContents, IEDMListingOptions, IEDMListingRights
 from collective.edm.listing.utils import get_workflow_policy
 
 
@@ -41,7 +41,8 @@ class Table(TableOrig):
         self.icon_quickview = portal_url + '/search_icon.png'
         self.icon_trash = portal_url + '/ecreall-trashcan.png'
         self.icon_restore = portal_url + '/ecreall-trashcan-restore.png'
-        self.listingrights = context.unrestrictedTraverse('@@edmlistingrights')
+        self.listingrights = getMultiAdapter((self.context, self.request, view),
+                                              interface=IEDMListingRights)
         self.listingrights.update()
         self.listingoptions = getMultiAdapter((self.context, self.request, view),
                                               interface=IEDMListingOptions)

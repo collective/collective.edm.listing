@@ -1,8 +1,9 @@
 from Acquisition import aq_inner
 from zope.interface import implements
 from zope.component import getUtility
+from zope.interface.interface import Interface
+from zope.component import adapts
 
-from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import DeleteObjects, AddPortalContent,\
     ReviewPortalContent, ModifyPortalContent, RequestReview
@@ -10,17 +11,23 @@ from Products.CMFCore.permissions import DeleteObjects, AddPortalContent,\
 from Products.CMFEditions.Permissions import AccessPreviousVersions
 from plone.memoize.instance import memoize
 
-from collective.edm.listing.interfaces import IListingRights
+from collective.edm.listing.interfaces import IEDMListingRights, IEDMListing
 from collective.edm.listing.utils import get_workflow_policy
 
 from collective.externaleditor.browser.controlpanel import IExternalEditorSchema
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from Products.CMFCore.interfaces._content import IFolderish
 
 
-class DefaultListingRights(BrowserView):
+class DefaultListingRights(object):
+    implements(IEDMListingRights)
+    adapts(IFolderish, Interface, IEDMListing)
 
-    implements(IListingRights)
-
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
+        
     def update(self):
         """Update global information
         """
