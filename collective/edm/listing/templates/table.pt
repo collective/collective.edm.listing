@@ -57,7 +57,8 @@
                              suppl_columns view/suppl_columns;
                              sortable_columns view/sortable_columns;
                              show_trashcan_column view/showTrashcan;
-                             show_trashcan_restore_column view/showTrashcanRestore">
+                             show_trashcan_restore_column view/showTrashcanRestore;
+                             sort_base_url view/sort_base_url;">
 
     <div class="visualClear" id="clear-space-before-navigation"><!-- --></div>
 
@@ -71,7 +72,7 @@
           <th class="nosort"
               id="foldercontents-title-column">&nbsp;
             <a tal:define="sort_order python:sort_on == 'sortable_title' and next_sort_order or 'ascending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=sortable_title&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=sortable_title&sort_order=$sort_order"
                tal:omit-tag="not:sortable_columns">
               <tal:title i18n:translate="listingheader_title"
               >Title</tal:title>&nbsp;
@@ -83,7 +84,7 @@
               id="foldercontents-creator-column"
               tal:condition="ShowAuthor">&nbsp;
             <a tal:define="sort_order python:sort_on == 'Creator' and next_sort_order or 'ascending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=Creator&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=Creator&sort_order=$sort_order"
                tal:omit-tag="not:sortable_columns">
               <tal:title i18n:translate="listingheader_author">Author</tal:title>&nbsp;
               <img tal:condition="sortable_columns"
@@ -95,7 +96,7 @@
               tal:condition="ShowSize"
               tal:define="sort_on_size python: sortable_columns and view.sort_on_size()">
             <a tal:define="sort_order python:sort_on == 'sortable_size' and next_sort_order or 'descending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=sortable_size&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=sortable_size&sort_order=$sort_order"
                tal:omit-tag="not:sort_on_size">
               <tal:title i18n:translate="listingheader_size">Size</tal:title>&nbsp;
               <img tal:condition="sort_on_size"
@@ -107,7 +108,7 @@
               id="foldercontents-modified-column"
               >&nbsp;
             <a tal:define="sort_order python:sort_on == 'modified' and next_sort_order or 'descending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=modified&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=modified&sort_order=$sort_order"
                tal:omit-tag="not:sortable_columns">
               <tal:modified i18n:domain="collective.edm.listing"
                             i18n:translate="listingheader_updated"
@@ -120,7 +121,7 @@
               id="foldercontents-state-column"
               tal:condition="ShowState">
             <a tal:define="sort_order python:sort_on == 'review_state' and next_sort_order or 'ascending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=review_state&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=review_state&sort_order=$sort_order"
                tal:omit-tag="not:sortable_columns">
               <tal:title i18n:translate="">State</tal:title>&nbsp;
               <img tal:condition="sortable_columns"
@@ -133,7 +134,7 @@
                tal:define="sort_index column/sort_index|nothing;
                           sortable_suppl_column python: sortable_columns and sort_index;
                           sort_order python:sort_on == sort_index and next_sort_order or 'ascending'"
-               tal:attributes="href string:${context/absolute_url}?sort_on=$sort_index&sort_order=$sort_order"
+               tal:attributes="href string:${view/sort_base_url}sort_on=$sort_index&sort_order=$sort_order"
                tal:omit-tag="not:sortable_suppl_column"
                ><tal:header
                     content="column/header"

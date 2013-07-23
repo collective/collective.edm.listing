@@ -1,3 +1,5 @@
+import urlparse
+
 from zope.component import getMultiAdapter, getAdapters, adapts
 
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
@@ -88,6 +90,11 @@ class Table(TableOrig):
                     continue
 
             self.suppl_columns.append(column)
+        
+        self.sort_base_url = "%s/%s?" % (self.context.absolute_url(), view.__name__)
+        for key, value in self.request.form.items():
+            if key not in ('sort_on', 'sort_order'):
+                self.sort_base_url += "%s=%s&" % (key, value)
 
     @instance.memoize
     def _getPlacefulChainForType(self, portal_type):
@@ -192,6 +199,9 @@ class Table(TableOrig):
         return self.listingrights.can_trash(item['brain'])
 
     def paste_button(self):
+        if not self.listingrights.show_folder_buttons():
+            return None
+        
         for button in self.buttons:
             if button['id'] == 'paste':
                 try:
