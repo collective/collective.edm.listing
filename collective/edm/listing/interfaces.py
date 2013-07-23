@@ -118,6 +118,10 @@ class IEDMListingOptions(Interface):
         """If it is false,
         edit buttons do not display a popup but only redirect to edit form
         """)
+    
+    content_filter = Attribute(
+        """A dictionary for a default catalog query to apply
+        """)
 
 
 class IEDMListingSettings(Interface):

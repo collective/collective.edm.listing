@@ -12,7 +12,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.edm.listing.interfaces import IEDMListing, IEDMListingSupplColumn,\
-    IEDMListingFolderContents
+    IEDMListingFolderContents, IEDMListingOptions
 from collective.edm.listing.utils import get_workflow_policy
 
 
@@ -24,6 +24,8 @@ class Table(TableOrig):
     def __init__(self, *args, **kwargs):
         context = kwargs['context']
         del kwargs['context']
+        view = kwargs['view']
+        del kwargs['view']
         super(Table, self).__init__(*args, **kwargs)
         self.context = context
         self.mtool = getToolByName(context, 'portal_membership')
@@ -41,7 +43,8 @@ class Table(TableOrig):
         self.icon_restore = portal_url + '/ecreall-trashcan-restore.png'
         self.listingrights = context.unrestrictedTraverse('@@edmlistingrights')
         self.listingrights.update()
-        self.listingoptions = context.unrestrictedTraverse('@@edmlistingoptions')
+        self.listingoptions = getMultiAdapter((self.context, self.request, view),
+                                              interface=IEDMListingOptions)
         self.plone_view = context.unrestrictedTraverse('@@plone')
         self.brains = []
         self.wf_policy = get_workflow_policy(context)
@@ -246,15 +249,20 @@ class FolderContentsTable(FolderContentsTableOrig):
     The foldercontents table renders the table and its actions.
     """
     implements(IEDMListingFolderContents)
-    adapts(IFolderish, Interface)
+    adapts(IFolderish, Interface, Interface)
 
     __table__ = Table
 
-    def __init__(self, context, request, contentFilter=None):
+    def __init__(self, context, request, view, contentFilter=None):
         self.context = context
         self.request = request
         self.contentFilter = contentFilter is not None and contentFilter or {}
-        self.listingoptions = self.context.unrestrictedTraverse('@@edmlistingoptions')
+        self.listingoptions = getMultiAdapter((self.context, self.request, 
+                                               view),
+                                              interface=IEDMListingOptions)
+        if self.listingoptions.content_filter:
+            self.contentFilter.update(self.listingoptions.content_filter)
+            
         if self.listingoptions.sort_mode == 'auto':
             default_sort_on = self.listingoptions.default_sort_on
             default_sort_order = self.listingoptions.default_sort_order
@@ -283,6 +291,7 @@ class FolderContentsTable(FolderContentsTableOrig):
         url = context.absolute_url()
         view_url = url + '/edm_folder_listing'
         self.table = self.__table__(request, url, view_url, self.items,
+                           view=view,
                            show_sort_column=self.show_sort_column,
                            buttons=self.buttons, context=context)
 
@@ -295,8 +304,14 @@ class FolderContentsView(FolderContentsViewOrig):
     def __init__(self, context, request):
         # avoids setting IContentsPage on our FolderContentsView
         BrowserView.__init__(self, context, request)
-
+    
+    @property
+    def table(self):
+        table = getMultiAdapter((self.context, self.request, self),
+                                IEDMListingFolderContents)
+        table.view = self
+        return table
+        
     def contents_table(self):
-        table = getMultiAdapter((self.context, self.request), IEDMListingFolderContents)
-        return table.render()
+        return self.table.render()
 

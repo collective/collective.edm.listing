@@ -51,13 +51,12 @@
       name="edmlistingrights"
       permission="zope2.View" />
 
-  <browser:page
-      for="*"
-      class=".listingoptions.DefaultListingOptions"
-      name="edmlistingoptions"
-      permission="zope2.View" />
+  <adapter factory=".listingoptions.DefaultListingOptions"
+           provides="collective.edm.listing.interfaces.IEDMListingOptions"
+       />
 
-  <adapter factory=".listing.FolderContentsTable" />
+  <adapter factory=".listing.FolderContentsTable"
+           provides="collective.edm.listing.interfaces.IEDMListingFolderContents" />
 
   <browser:page
       for="*"

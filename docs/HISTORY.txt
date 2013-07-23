@@ -4,7 +4,8 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- We use a multi adapter for listing options instead of a view
+  so that we can make listing options depend on the view.
 
 
 0.10 (2013-07-16)

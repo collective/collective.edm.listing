@@ -1,14 +1,21 @@
 from zope.interface import implements
-
-from Products.Five.browser import BrowserView
+from zope.component import adapts
 
 from collective.edm.listing.interfaces import IEDMListingOptions
+from zope.interface.interface import Interface
 
 
-class DefaultListingOptions(BrowserView):
+class DefaultListingOptions(object):
     implements(IEDMListingOptions)
-
+    adapts(Interface, Interface, Interface)
+    
     sort_mode = 'manual'
     default_sort_on = False
     default_sort_order = 'asc'
     allow_edit_popup = True
+    content_filter = None
+    
+    def __init__(self, context, request, view):
+        self.context = context
+        self.request = request
+        self.view = view
