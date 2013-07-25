@@ -4,6 +4,9 @@ Changelog
 0.11 (unreleased)
 -----------------
 
+- Reload instead of redirect after edit / delete popup 
+  to ensure we stay on the same page.
+
 - Sort urls are aware of parameters and template.
 
 - We use a multi adapter for listing options and rights instead of a view

@@ -4,11 +4,10 @@ edmlisting.initoverlay = function(){
         jQuery(this).prepOverlay({
             subtype: 'ajax',
             filter: common_content_filter,
-            formselector: '.edit-popup form',
-            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
-        	redirect: $.plonepopups.redirectbasehref
+            formselector: '#edit-popup form',
+            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'reload');},
             });
-        jQuery(this).removeClass('edm-edit-popup');
+    	jQuery('.edm-edit-popup').unbind('mouseover');
     });
     jQuery('.edm-delete-popup').unbind('mouseover').mouseover(function(){
         jQuery(this).prepOverlay({
@@ -16,10 +15,9 @@ edmlisting.initoverlay = function(){
             filter: common_content_filter,
             closeselector: '[name="form.button.Cancel"]',
             formselector: '#edit-popup-transitions form',
-            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'redirect');},
-        	redirect: $.plonepopups.redirectbasehref
+            noform: function(el) {return $.plonepopups.noformerrorshow(el, 'reload');},
             });
-        jQuery(this).removeClass('edm-delete-popup');
+    	jQuery('.edm-delete-popup').unbind('mouseover');
     });
     jQuery('.edm-author-popup').unbind('mouseover').mouseover(function(){
         jQuery(this).prepOverlay({
