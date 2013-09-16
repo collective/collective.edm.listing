@@ -237,7 +237,7 @@
               </td>
               <td tal:repeat="column suppl_columns">
                 <span i18n:translate=""
-                      tal:content="python:column.value(item)" />
+                      tal:content="structure python:column.value(item)" />
               </td>
               <td tal:condition="showDownload" class="item-title"
                   class="foldercontents-download-cell">

@@ -81,7 +81,7 @@ class Table(TableOrig):
         self.sortable_columns = self.listingoptions.sort_mode == 'auto'
         self.show_sort_column = not self.sortable_columns and self.listingrights.globally_show_sort()
         self.show_trashcan_column = self.showTrashcan()
-        suppl_columns = getAdapters((context, self.request, self),
+        suppl_columns = getAdapters((context, self.request, self, view),
                                     IEDMListingSupplColumn)
         self.suppl_columns = []
         for name, column in suppl_columns:
@@ -90,7 +90,7 @@ class Table(TableOrig):
                     continue
 
             self.suppl_columns.append(column)
-        
+
         self.sort_base_url = "%s/%s?" % (self.context.absolute_url(), view.__name__)
         for key, value in self.request.form.items():
             if key not in ('sort_on', 'sort_order'):
@@ -201,7 +201,7 @@ class Table(TableOrig):
     def paste_button(self):
         if not self.listingrights.show_folder_buttons():
             return None
-        
+
         for button in self.buttons:
             if button['id'] == 'paste':
                 try:
@@ -268,12 +268,12 @@ class FolderContentsTable(FolderContentsTableOrig):
         self.context = context
         self.request = request
         self.contentFilter = contentFilter is not None and contentFilter or {}
-        self.listingoptions = getMultiAdapter((self.context, self.request, 
+        self.listingoptions = getMultiAdapter((self.context, self.request,
                                                view),
                                               interface=IEDMListingOptions)
         if self.listingoptions.content_filter:
             self.contentFilter.update(self.listingoptions.content_filter)
-            
+
         if self.listingoptions.sort_mode == 'auto':
             default_sort_on = self.listingoptions.default_sort_on
             default_sort_order = self.listingoptions.default_sort_order
@@ -315,14 +315,14 @@ class FolderContentsView(FolderContentsViewOrig):
     def __init__(self, context, request):
         # avoids setting IContentsPage on our FolderContentsView
         BrowserView.__init__(self, context, request)
-    
+
     @property
     def table(self):
         table = getMultiAdapter((self.context, self.request, self),
                                 IEDMListingFolderContents)
         table.view = self
         return table
-        
+
     def contents_table(self):
         return self.table.render()
 

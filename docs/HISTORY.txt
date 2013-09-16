@@ -4,7 +4,11 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Reload instead of redirect after edit / delete popup 
+- Additional columns multiadapter now handles view.
+
+- Additional column can display html.
+
+- Reload instead of redirect after edit / delete popup
   to ensure we stay on the same page.
 
 - Sort urls are aware of parameters and template.
