@@ -4,8 +4,10 @@ Changelog
 0.11 (unreleased)
 -----------------
 
+WARNING ! : Adapters for additional columns, listing options and listing rights
+		    MUST BE UPDATED !
+
 - Additional columns multiadapter now handles view.
-  YOUR ADDITIONAL COLUMNS ADAPTERS MUST BE UPDATED.
 
 - Additional column can display html.
 
