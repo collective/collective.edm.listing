@@ -5,6 +5,7 @@ Changelog
 -----------------
 
 - Additional columns multiadapter now handles view.
+  YOUR ADDITIONAL COLUMNS ADAPTERS MUST BE UPDATED.
 
 - Additional column can display html.
 
