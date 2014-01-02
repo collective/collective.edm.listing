@@ -1,4 +1,4 @@
 collective.edm.listing
 ======================
 
-Integration of a filer explorer like listing in Plone
+Integration of a file explorer like listing in Plone
