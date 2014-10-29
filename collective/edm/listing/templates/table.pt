@@ -26,6 +26,7 @@
          tal:attributes="value sort_order"
          />
   <input type="hidden" name="pagenumber" tal:attributes="value view/batch/pagenumber"/>
+  <input type="hidden" name="pagesize" tal:attributes="value view/batch/pagesize"/>
   <input type="hidden" name="show_all" tal:attributes="value view/show_all"/>
   <input type="hidden" name="orig_template" tal:attributes="value view/viewname"/>
   <tal:block condition="view/selectall">

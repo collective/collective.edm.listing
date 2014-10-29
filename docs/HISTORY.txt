@@ -4,7 +4,9 @@ Changelog
 0.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Allow to modify the pagesize with a query-string e.g. "?pagesize=100".
+  (fixes plone.app.content >= 2.1.5 compatibility).
+  [cedricmessiant]
 
 
 0.11 (2013-09-25)

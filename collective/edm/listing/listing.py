@@ -267,6 +267,7 @@ class FolderContentsTable(FolderContentsTableOrig):
     def __init__(self, context, request, view, contentFilter=None):
         self.context = context
         self.request = request
+        self.pagesize = int(request.get('pagesize', 20))
         self.contentFilter = contentFilter is not None and contentFilter or {}
         self.listingoptions = getMultiAdapter((self.context, self.request,
                                                view),
@@ -302,9 +303,11 @@ class FolderContentsTable(FolderContentsTableOrig):
         url = context.absolute_url()
         view_url = url + '/edm_folder_listing'
         self.table = self.__table__(request, url, view_url, self.items,
-                           view=view,
-                           show_sort_column=self.show_sort_column,
-                           buttons=self.buttons, context=context)
+                                    view=view,
+                                    show_sort_column=self.show_sort_column,
+                                    buttons=self.buttons,
+                                    pagesize=self.pagesize,
+                                    context=context)
 
 
 class FolderContentsView(FolderContentsViewOrig):
