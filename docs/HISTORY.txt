@@ -4,6 +4,9 @@ Changelog
 0.12 (unreleased)
 -----------------
 
+- Fix ids on viewlet managers in folder listing template.
+  [cedricmessiant]
+
 - Allow to modify the pagesize with a query-string e.g. "?pagesize=100".
   (fixes plone.app.content >= 2.1.5 compatibility).
   [cedricmessiant]
