@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.12 (unreleased)
+0.12 (2015-02-06)
 -----------------
 
 - Fix ids on viewlet managers in folder listing template.
