@@ -90,6 +90,8 @@ class Table(TableOrig):
                     continue
 
             self.suppl_columns.append(column)
+        self.suppl_columns.sort(
+            key=lambda col:(hasattr(col, 'position') and col.position) or 99)
 
         self.sort_base_url = "%s/%s?" % (self.context.absolute_url(), view.__name__)
         for key, value in self.request.form.items():

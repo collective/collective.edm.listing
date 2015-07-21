@@ -4,7 +4,8 @@ Changelog
 0.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Allow to order additional columns
+  [ebrehault]
 
 
 0.12 (2015-02-06)

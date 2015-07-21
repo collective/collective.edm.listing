@@ -118,7 +118,7 @@ class IEDMListingOptions(Interface):
         """If it is false,
         edit buttons do not display a popup but only redirect to edit form
         """)
-    
+
     content_filter = Attribute(
         """A dictionary for a default catalog query to apply
         """)
@@ -134,6 +134,7 @@ class IEDMListingSettings(Interface):
 class IEDMListingSupplColumn(Interface):
 
     header = Attribute("Column header")
+    position = Attribute("Column position")
     sort_index = Attribute("If defined, the column is sortable on this index")
 
     def value(item):
